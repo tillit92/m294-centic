@@ -1,0 +1,47 @@
+<div>
+  <div>
+    <mat-toolbar *appIsInRole="'update'" color="primary">
+      <span>
+        <button (click)="add()" *appIsInRole="'update'" color="primary" mat-button style="color: white">
+          <mat-icon>add</mat-icon>
+          {{'budget.button_new' | translate}}
+        </button>
+      </span>
+    </mat-toolbar>
+  </div>
+  <table [dataSource]="budgetDataSource" class="mat-elevation-z8 budgets-table" mat-table>
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef class="w-75 th-center" mat-header-cell></th>
+      <td *matCellDef="let element" mat-cell style="text-align: end">
+        <button (click)="edit(element)" *appIsInRole="'update'" color="primary" mat-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="delete(element)" *appIsInRole="'update'" color="warn" mat-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="limitAmount">
+      <th *matHeaderCellDef mat-header-cell>{{'budget.limitAmount' | translate}}</th>
+      <td *matCellDef="let element" mat-cell> {{element.limitAmount | number:'1.2-2'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="month">
+      <th *matHeaderCellDef mat-header-cell>{{'budget.month' | translate}}</th>
+      <td *matCellDef="let element" mat-cell> {{element.month}} </td>
+    </ng-container>
+    <ng-container matColumnDef="category">
+      <th *matHeaderCellDef mat-header-cell>{{'budget.category' | translate}}</th>
+      <td *matCellDef="let element" mat-cell>
+        @if (element.category) {
+          <span [style.background-color]="element.category.colorCode" style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: middle;"></span>
+          {{element.category.name}}
+        }
+      </td>
+    </ng-container>
+    <tr *matHeaderRowDef="columns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: columns;" mat-row></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10]" [pageSize]="10"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

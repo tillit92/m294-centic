@@ -20,14 +20,27 @@
     "save_new_error": "New item could not be saved, server error!",
     "close": "Close"
   },
-  "vehicle": {
-    "title": "Vehicles",
-    "button_new": "Add new vehicle",
-    "type": "Type",
-    "licence": "Licence",
+  "category": {
+    "name": "Name",
+    "colorCode": "Color Code",
+    "globalFlag": "Global",
+    "button_new": "Add new category"
+  },
+  "transaction": {
+    "amount": "Amount",
+    "date": "Date",
     "description": "Description",
-    "typeCar": "Car",
-    "typeBicycle": "Bicycle"
+    "type": "Type",
+    "typeIncome": "Income",
+    "typeExpense": "Expense",
+    "category": "Category",
+    "button_new": "Add new transaction"
+  },
+  "budget": {
+    "limitAmount": "Limit Amount",
+    "month": "Month (YYYY-MM)",
+    "category": "Category",
+    "button_new": "Add new budget"
   },
   "department": {
     "name": "Name",
@@ -40,29 +53,21 @@
     "department": "Department",
     "button_new": "Add new employee"
   },
-  "vehicleUsage": {
-    "fromDate": "Date from",
-    "toDate": "Date to",
-    "fromLocation": "From",
-    "toLocation": "To",
-    "text": "Text",
-    "km": "KM",
-    "vehicle": "Vehicle",
-    "employee": "Employee",
-    "button_new": "Add new vehicle usage data"
-  },
   "nav": {
     "dashboard": "Dashboard",
     "departments": "Departments",
     "employees": "Employees",
     "employee_edit": "Edit employee",
     "employee_new": "Add new employee",
-    "vehicles": "Vehicles",
-    "vehicle_edit": "Edit vehicle",
-    "vehicle_new": "Add new vehicle",
-    "vehicleUsage_edit": "Edit vehicle usage",
-    "vehicleUsage_new": "Add new vehicle usage",
-    "usage": "Vehicle Usage",
+    "categories": "Categories",
+    "category_edit": "Edit category",
+    "category_new": "Add new category",
+    "transactions": "Transactions",
+    "transaction_edit": "Edit transaction",
+    "transaction_new": "Add new transaction",
+    "budgets": "Budgets",
+    "budget_edit": "Edit budget",
+    "budget_new": "Add new budget",
     "noaccess": "No Access",
     "login": "Login",
     "logout": "Logout"

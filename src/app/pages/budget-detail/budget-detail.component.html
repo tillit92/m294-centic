@@ -1,0 +1,39 @@
+<div>
+  <div>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span class="toolbar-spacer"></span>
+        <button (click)="back()" color="primary" mat-button style="color: white">
+          <mat-icon>arrow_back_ios</mat-icon>
+          {{ 'main.button_back' | translate }}
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+  <div class="app-form">
+    <form (ngSubmit)="save(objForm.value)" [formGroup]="objForm!">
+      <mat-form-field style="width: 100%;">
+        <mat-label>{{ 'budget.limitAmount' | translate }}</mat-label>
+        <input appAutofocus formControlName="limitAmount" matInput type="number" step="0.01" min="0.00" required>
+      </mat-form-field>
+      <mat-form-field style="width: 100%;">
+        <mat-label>{{ 'budget.month' | translate }}</mat-label>
+        <input formControlName="month" matInput type="month" required>
+      </mat-form-field>
+      <mat-form-field style="width: 100%;">
+        <mat-label>{{ 'budget.category' | translate }}</mat-label>
+        <mat-select formControlName="categoryId" required>
+          @for (c of categories; track c.id) {
+            <mat-option [value]="c.id">
+              <span [style.background-color]="c.colorCode" style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: middle;"></span>
+              {{c.name}}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <button [disabled]="!objForm.valid" color="primary" mat-raised-button style="width: 200px">
+        {{ 'main.button_save' | translate }}
+      </button>
+    </form>
+  </div>
+</div>

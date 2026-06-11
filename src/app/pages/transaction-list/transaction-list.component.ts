@@ -1,16 +1,15 @@
 import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
-import {HeaderService} from '../../service/header.service';
+import { HeaderService } from '../../service/header.service';
 import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
-import {Vehicle} from '../../dataaccess/vehicle';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatDialog} from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateModule } from '@ngx-translate/core';
-import {ConfirmDialogComponent} from '../../components/confirm-dialog/confirm-dialog.component';
-import {VehicleUsage} from '../../dataaccess/vehicleUsage';
-import {BaseComponent} from '../../components/base/base.component';
-import {VehicleUsageService} from '../../service/vehicle-usage.service';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { Transaction } from '../../dataaccess/transaction.model';
+import { BaseComponent } from '../../components/base/base.component';
+import { TransactionService } from '../../service/transaction.service';
 import { IsInRoleDirective } from '../../dir/is.in.role.dir';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatButton } from '@angular/material/button';
@@ -18,27 +17,26 @@ import { MatIcon } from '@angular/material/icon';
 import { DecimalPipe, DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-vehicle-usage-list',
-    templateUrl: './vehicle-usage-list.component.html',
-    styleUrls: ['./vehicle-usage-list.component.scss'],
+    selector: 'app-transaction-list',
+    templateUrl: './transaction-list.component.html',
+    styleUrls: ['./transaction-list.component.scss'],
     imports: [IsInRoleDirective, MatToolbar, MatButton, MatIcon, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, DecimalPipe, DatePipe, TranslateModule]
 })
-export class VehicleUsageListComponent extends BaseComponent implements OnInit, AfterViewInit {
-  private vehicleUsageService = inject(VehicleUsageService);
+export class TransactionListComponent extends BaseComponent implements OnInit, AfterViewInit {
+  private transactionService = inject(TransactionService);
   private dialog = inject(MatDialog);
   private headerService = inject(HeaderService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
 
-  vehicleUsageDataSource = new MatTableDataSource<VehicleUsage>();
+  transactionDataSource = new MatTableDataSource<Transaction>();
   @ViewChild(MatPaginator) paginator?: MatPaginator;
 
-  columns = ['fromDate', 'toDate', 'fromLocation', 'toLocation', 'km', 'vehicle', 'employee', 'text', 'actions'];
+  columns = ['amount', 'date', 'type', 'category', 'description', 'actions'];
 
   public constructor() {
     super();
-
-    this.headerService.setPage('nav.usage');
+    this.headerService.setPage('nav.transactions');
   }
 
   async ngOnInit() {
@@ -47,25 +45,25 @@ export class VehicleUsageListComponent extends BaseComponent implements OnInit, 
 
   ngAfterViewInit() {
     if (this.paginator) {
-      this.vehicleUsageDataSource.paginator = this.paginator;
+      this.transactionDataSource.paginator = this.paginator;
     }
   }
 
   reloadData() {
-    this.vehicleUsageService.getList().subscribe(obj => {
-      this.vehicleUsageDataSource.data = obj;
+    this.transactionService.getList().subscribe(obj => {
+      this.transactionDataSource.data = obj;
     });
   }
 
-  async edit(e: Vehicle) {
-    await this.router.navigate(['vehicle-usage', e.id]);
+  async edit(e: Transaction) {
+    await this.router.navigate(['transaction', e.id]);
   }
 
   async add() {
-    await this.router.navigate(['vehicle-usage']);
+    await this.router.navigate(['transaction']);
   }
 
-  delete(e: VehicleUsage) {
+  delete(e: Transaction) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '400px',
       data: {
@@ -76,9 +74,9 @@ export class VehicleUsageListComponent extends BaseComponent implements OnInit, 
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
-        this.vehicleUsageService.delete(e.id).subscribe({
+        this.transactionService.delete(e.id).subscribe({
           next: response => {
-            if (response.status === 200) {
+            if (response.status === 200 || response.status === 204) {
               this.snackBar.open(this.deletedMessage, this.closeMessage, {duration: 5000});
               this.reloadData();
             } else {

@@ -20,14 +20,27 @@
     "save_new_error": "Neues Objekt konnte nicht gespeichert werden. Server Fehler!",
     "close": "Schliessen"
   },
-  "vehicle": {
-    "title": "Fahrzeuge",
-    "button_new": "Neues Fahrzeug hinzufügen",
-    "type": "Art",
-    "licence": "Zulassung",
+  "category": {
+    "name": "Name",
+    "colorCode": "Farbcode",
+    "globalFlag": "Global",
+    "button_new": "Neue Kategorie hinzufügen"
+  },
+  "transaction": {
+    "amount": "Betrag",
+    "date": "Datum",
     "description": "Beschreibung",
-    "typeCar": "Motorfahrzeug",
-    "typeBicycle": "Fahrrad"
+    "type": "Typ",
+    "typeIncome": "Einnahme",
+    "typeExpense": "Ausgabe",
+    "category": "Kategorie",
+    "button_new": "Neue Transaktion erfassen"
+  },
+  "budget": {
+    "limitAmount": "Limit Betrag",
+    "month": "Monat (JJJJ-MM)",
+    "category": "Kategorie",
+    "button_new": "Neues Budget erfassen"
   },
   "department": {
     "name": "Name",
@@ -40,29 +53,21 @@
     "department": "Abteilung",
     "button_new": "Neuer Mitarbeiter erfassen"
   },
-  "vehicleUsage": {
-    "fromDate": "Datum von",
-    "toDate": "Datum bis",
-    "fromLocation": "Von",
-    "toLocation": "Nach",
-    "text": "Text",
-    "km": "KM",
-    "vehicle": "Fahrzeug",
-    "employee": "Mitarbeiter",
-    "button_new": "Neue Fahrzeugbenutzung erfassen"
-  },
   "nav": {
     "dashboard": "Dashboard",
     "departments": "Abteilungen",
     "employees": "Mitarbeiter",
     "employee_edit": "Mitarbeiter editieren",
     "employee_new": "Neuer Mitarbeiter erfassen",
-    "vehicles": "Fahrzeuge",
-    "vehicle_edit": "Fahrzeug editieren",
-    "vehicle_new": "Neues Fahrzeug erfassen",
-    "vehicleUsage_edit": "Fahrzeugbenutzung editieren",
-    "vehicleUsage_new": "Neue Fahrzeugbenutzung erfassen",
-    "usage": "Fahrzeugbenutzung",
+    "categories": "Kategorien",
+    "category_edit": "Kategorie editieren",
+    "category_new": "Neue Kategorie erfassen",
+    "transactions": "Transaktionen",
+    "transaction_edit": "Transaktion editieren",
+    "transaction_new": "Neue Transaktion erfassen",
+    "budgets": "Budgets",
+    "budget_edit": "Budget editieren",
+    "budget_new": "Neues Budget erfassen",
     "noaccess": "Kein Zugriff",
     "login": "Anmelden",
     "logout": "Abmelden"

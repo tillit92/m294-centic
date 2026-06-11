@@ -15,20 +15,24 @@
             <mat-icon>dashboard</mat-icon>&nbsp;{{'nav.dashboard' | translate }}</button>
           </div>
           <div>
-            <button [routerLink]="['departments']" color="primary" mat-button>
+            <button [routerLink]="['departments']" color="primary" mat-button [disabled]="true">
               <mat-icon>business</mat-icon>&nbsp;{{'nav.departments' | translate }}</button>
             </div>
             <div>
-              <button [routerLink]="['employees']" color="primary" mat-button>
+              <button [routerLink]="['employees']" color="primary" mat-button [disabled]="true">
                 <mat-icon>badge</mat-icon>&nbsp;{{'nav.employees' | translate }}</button>
               </div>
-              <div>
-                <button [routerLink]="['vehicles']" color="primary" mat-button>
-                  <mat-icon>garage_outline</mat-icon>&nbsp;{{'nav.vehicles' | translate }}</button>
-                </div>
-                <div>
-                  <button [routerLink]="['vehicle-usages']" color="primary" mat-button>
-                    <mat-icon>shopping_basket</mat-icon>&nbsp;{{'nav.usage' | translate }}</button>
+                  <div>
+                    <button [routerLink]="['categories']" color="primary" mat-button>
+                      <mat-icon>category</mat-icon>&nbsp;{{'nav.categories' | translate }}</button>
+                  </div>
+                  <div>
+                    <button [routerLink]="['transactions']" color="primary" mat-button>
+                      <mat-icon>receipt_long</mat-icon>&nbsp;{{'nav.transactions' | translate }}</button>
+                  </div>
+                  <div>
+                    <button [routerLink]="['budgets']" color="primary" mat-button>
+                      <mat-icon>account_balance_wallet</mat-icon>&nbsp;{{'nav.budgets' | translate }}</button>
                   </div>
                   @if (useralias() !== '') {
                     <div style="margin-top: 50px">
