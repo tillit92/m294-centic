@@ -1,0 +1,25 @@
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+}
+
+.brand-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.brand-divider {
+  color: #9ca3af;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.brand-page {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: -0.1px;
+}

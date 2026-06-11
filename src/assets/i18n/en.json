@@ -73,7 +73,31 @@
     "logout": "Logout"
   },
   "dashboard": {
-    "welcome": "Welcome {{username}} ({{useralias}})!"
+    "welcome": "Welcome {{username}} ({{useralias}})!",
+    "subtitle_auth": "Welcome back, {{useralias}}",
+    "subtitle_anon": "Your financial overview for {{month}}",
+    "new_transaction": "New Transaction",
+    "metric_balance": "Total Balance",
+    "metric_balance_sub": "Net position",
+    "metric_spending": "This Month's Spending",
+    "metric_spending_of": "of {{limit}} budget",
+    "metric_budgets": "Active Budgets",
+    "metric_budgets_link": "View all budgets",
+    "section_transactions": "Recent Transactions",
+    "section_transactions_link": "View all",
+    "section_budgets": "Budget Overview",
+    "section_budgets_link": "Manage",
+    "col_date": "Date",
+    "col_category": "Category",
+    "col_amount": "Amount",
+    "col_status": "Status",
+    "status_approved": "Approved",
+    "status_pending": "Pending",
+    "type_income": "Income",
+    "type_expense": "Expense",
+    "budget_remaining": "{{pct}}% remaining",
+    "budget_limit_reached": "Limit reached",
+    "budget_nearly_full": "{{pct}}% remaining"
   },
   "mat": {
     "Items per page:": "Items per page:",

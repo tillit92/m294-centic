@@ -1,11 +1,221 @@
-@if (useralias !== '') {
-  <div style="font-weight: bold">
-    {{ 'dashboard.welcome' | translate:{username: username, useralias: useralias} }}
-  <!--div [innerHTML]="'dashboard.welcome' | translate: {username: username, useralias: useralias}"></div-->
-</div>
-}
-@if (!useralias || useralias === '') {
-  <div>
-    <app-login></app-login>
-  </div>
-}
+<section class="dash-page">
+
+  <!-- ══════ PAGE HEADER ══════════════════════════════════════════════════════ -->
+  <header class="dash-header">
+    <div class="dash-header__text">
+      @if (useralias() !== '') {
+        <h1 class="dash-title">{{ 'dashboard.subtitle_auth' | translate:{ useralias: useralias() } }}</h1>
+      } @else {
+        <h1 class="dash-title">{{ 'dashboard.subtitle_anon' | translate:{ month: currentMonthLabel } }}</h1>
+      }
+    </div>
+    <div class="dash-header__actions">
+      <a class="action-btn" routerLink="/transactions">
+        <span class="material-icons" aria-hidden="true">add</span>
+        {{ 'dashboard.new_transaction' | translate }}
+      </a>
+    </div>
+  </header>
+
+  <!-- ══════ SKELETON ════════════════════════════════════════════════════════ -->
+  @if (isLoading()) {
+    <div class="skeleton-row">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+    <div class="skeleton-panel large"></div>
+    <div class="skeleton-panel"></div>
+  }
+
+  <!-- ══════ MAIN CONTENT ════════════════════════════════════════════════════ -->
+  @if (!isLoading()) {
+
+    <!-- ── KEY METRICS ──────────────────────────────────────────────────────── -->
+    <div class="metric-row" role="list" aria-label="Kennzahlen">
+
+      <!-- Total Balance -->
+      <article class="metric-card" role="listitem">
+        <header class="metric-card__header">
+          <span class="material-icons metric-card__icon icon--blue" aria-hidden="true">account_balance</span>
+          <span class="metric-card__label">{{ 'dashboard.metric_balance' | translate }}</span>
+        </header>
+        <p class="metric-card__value"
+           [class.value--positive]="totalBalance() >= 0"
+           [class.value--negative]="totalBalance() < 0">
+          {{ totalBalanceFormatted() }}
+        </p>
+        <p class="metric-card__sub">{{ 'dashboard.metric_balance_sub' | translate }}</p>
+      </article>
+
+      <!-- Monthly Spending -->
+      <article class="metric-card" role="listitem">
+        <header class="metric-card__header">
+          <span class="material-icons metric-card__icon icon--orange" aria-hidden="true">receipt_long</span>
+          <span class="metric-card__label">{{ 'dashboard.metric_spending' | translate }}</span>
+        </header>
+        <p class="metric-card__value">{{ monthlySpendingFormatted() }}</p>
+        <div class="mini-bar-wrap">
+          <div class="mini-bar" role="progressbar"
+               [attr.aria-valuenow]="spendingRatio() * 100 | number:'1.0-0'"
+               aria-valuemin="0" aria-valuemax="100">
+            <div class="mini-bar__fill"
+                 [class.fill--warn]="spendingRatio() >= 0.8"
+                 [class.fill--danger]="spendingRatio() >= 1"
+                 [style.width.%]="spendingRatio() * 100">
+            </div>
+          </div>
+          <span class="mini-bar__label">
+            {{ 'dashboard.metric_spending_of' | translate:{ limit: monthlyBudgetLimitFormatted() } }}
+          </span>
+        </div>
+      </article>
+
+      <!-- Active Budgets -->
+      <article class="metric-card" role="listitem">
+        <header class="metric-card__header">
+          <span class="material-icons metric-card__icon icon--sage" aria-hidden="true">account_balance_wallet</span>
+          <span class="metric-card__label">{{ 'dashboard.metric_budgets' | translate }}</span>
+        </header>
+        <p class="metric-card__value value--count">{{ activeBudgetCount() }}</p>
+        <a class="metric-card__link" routerLink="/budgets">
+          {{ 'dashboard.metric_budgets_link' | translate }}
+        </a>
+      </article>
+
+    </div>
+    <!-- ── END METRICS ───────────────────────────────────────────────────────── -->
+
+
+    <!-- ── LOWER SECTION ──────────────────────────────────────────────────────── -->
+    <div class="lower-layout">
+
+      <!-- RECENT TRANSACTIONS ─────────────────────────────────────────────── -->
+      <section class="panel transactions-panel">
+        <div class="panel__head">
+          <h2 class="panel__title">{{ 'dashboard.section_transactions' | translate }}</h2>
+          <a class="panel__link" routerLink="/transactions">
+            {{ 'dashboard.section_transactions_link' | translate }}
+          </a>
+        </div>
+
+        <div class="table-wrap">
+          <table class="tx-table" aria-label="Letzte Transaktionen">
+            <thead>
+              <tr>
+                <th scope="col">{{ 'dashboard.col_date'     | translate }}</th>
+                <th scope="col">{{ 'dashboard.col_category' | translate }}</th>
+                <th scope="col" class="align-right">{{ 'dashboard.col_amount' | translate }}</th>
+                <th scope="col" class="align-right">{{ 'dashboard.col_status' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (tx of transactions(); track tx.id) {
+                <tr class="tx-row">
+
+                  <!-- Date: d. MMM (de_CH) or MMM d (en) -->
+                  <td class="tx-date">
+                    {{ tx.date | date:(translate.currentLang === 'de_CH' ? 'd. MMM' : 'MMM d') }}
+                  </td>
+
+                  <!-- Category -->
+                  <td>
+                    <span class="category-pill">{{ tx.categoryName }}</span>
+                  </td>
+
+                  <!-- Amount: +/− with CHF prefix -->
+                  <td class="align-right">
+                    <span class="tx-amount"
+                          [class.tx-amount--income]="tx.type === 'INCOME'"
+                          [class.tx-amount--expense]="tx.type === 'EXPENSE'">
+                      {{ tx.type === 'INCOME' ? '+' : '−' }}
+                      {{ tx.amount | number:'1.2-2':'de-CH' }} CHF
+                    </span>
+                  </td>
+
+                  <!-- Global status: icon + label -->
+                  <td class="align-right">
+                    @if (tx.globalFlag) {
+                      <span class="status-tag status-tag--ok">
+                        <span class="material-icons status-tag__icon" aria-hidden="true">check_circle</span>
+                        {{ 'dashboard.status_approved' | translate }}
+                      </span>
+                    } @else {
+                      <span class="status-tag status-tag--pending">
+                        <span class="material-icons status-tag__icon" aria-hidden="true">schedule</span>
+                        {{ 'dashboard.status_pending' | translate }}
+                      </span>
+                    }
+                  </td>
+
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <!-- END TRANSACTIONS ──────────────────────────────────────────────────── -->
+
+
+      <!-- BUDGET OVERVIEW ──────────────────────────────────────────────────── -->
+      <section class="panel budgets-panel">
+        <div class="panel__head">
+          <h2 class="panel__title">{{ 'dashboard.section_budgets' | translate }}</h2>
+          <a class="panel__link" routerLink="/budgets">
+            {{ 'dashboard.section_budgets_link' | translate }}
+          </a>
+        </div>
+
+        <ul class="budget-list" aria-label="Budgetübersicht">
+          @for (b of budgets(); track b.id) {
+            <li class="budget-item">
+
+              <div class="budget-item__row">
+                <span class="budget-name">{{ b.categoryName }}</span>
+                <span class="budget-fraction"
+                      [class.fraction--warn]="isBudgetWarning(b)"
+                      [class.fraction--danger]="isBudgetDanger(b)">
+                  {{ budgetSpentFormatted(b) }}
+                  <span class="budget-fraction__limit">/ {{ budgetLimitFormatted(b) }}</span>
+                </span>
+              </div>
+
+              <!-- Progress bar -->
+              <div class="budget-bar" role="progressbar"
+                   [attr.aria-valuenow]="budgetProgress(b) | number:'1.0-0'"
+                   aria-valuemin="0" aria-valuemax="100">
+                <div class="budget-bar__fill"
+                     [class.fill--warn]="isBudgetWarning(b)"
+                     [class.fill--danger]="isBudgetDanger(b)"
+                     [style.width.%]="budgetProgress(b)">
+                </div>
+              </div>
+
+              <!-- Text hint below bar -->
+              <p class="budget-hint">
+                @if (isBudgetDanger(b)) {
+                  <span class="hint--danger">
+                    <span class="material-icons hint-icon" aria-hidden="true">warning_amber</span>
+                    {{ 'dashboard.budget_limit_reached' | translate }}
+                  </span>
+                } @else if (isBudgetWarning(b)) {
+                  <span class="hint--warn">
+                    {{ 'dashboard.budget_nearly_full' | translate:{ pct: budgetRemainingPct(b) } }}
+                  </span>
+                } @else {
+                  {{ 'dashboard.budget_remaining' | translate:{ pct: budgetRemainingPct(b) } }}
+                }
+              </p>
+
+            </li>
+          }
+        </ul>
+      </section>
+      <!-- END BUDGET OVERVIEW ──────────────────────────────────────────────── -->
+
+    </div>
+    <!-- ── END LOWER SECTION ────────────────────────────────────────────────── -->
+
+  }
+
+</section>

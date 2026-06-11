@@ -1,0 +1,513 @@
+@use 'sass:color';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Design Tokens — change these to retheme the entire dashboard
+// ─────────────────────────────────────────────────────────────────────────────
+$bg:           #f7f8fa;
+$surface:      #ffffff;
+$border:       #e5e7eb;
+$border-faint: #f3f4f6;
+
+$text-primary:   #111827;
+$text-secondary: #6b7280;
+$text-muted:     #9ca3af;
+
+// Accent palette — muted, non-neon
+$blue:       #3b6bda;   // interactive / links
+$blue-tint:  #eff3ff;
+$sage:       #4a7c6f;   // active budgets icon — calm sage green
+$sage-tint:  #edf5f3;
+$green:      #16a34a;   // income / positive balance
+$green-tint: #dcfce7;
+$orange:     #c2622c;   // spending icon — warm terracotta
+$orange-tint:#fff0e6;
+$amber:      #b45309;   // warning state
+$amber-tint: #fef3c7;
+$red:        #b91c1c;   // danger state
+$red-tint:   #fee2e2;
+
+$radius:     10px;
+$radius-sm:   6px;
+$radius-pill:100px;
+
+$shadow:      0 1px 2px rgba(0,0,0,.05), 0 1px 4px rgba(0,0,0,.04);
+$shadow-lift: 0 4px 16px rgba(0,0,0,.08);
+
+$ease: 180ms ease;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Page shell
+// ─────────────────────────────────────────────────────────────────────────────
+.dash-page {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  color: $text-primary;
+  background: $bg;
+  min-height: 100%;
+  padding-bottom: 48px;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Page header
+// ─────────────────────────────────────────────────────────────────────────────
+.dash-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $border;
+}
+
+.dash-header__text { flex: 1; }
+
+.dash-title {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.25px;
+  color: $text-primary;
+}
+
+.dash-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: $text-secondary;
+}
+
+.dash-header__actions { flex-shrink: 0; }
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 15px;
+  background: $blue;
+  color: #fff;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.1px;
+  transition: background $ease;
+
+  .material-icons {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  &:hover { background: color.adjust($blue, $lightness: -8%); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Skeleton loader
+// ─────────────────────────────────────────────────────────────────────────────
+@keyframes shimmer {
+  from { background-position: -500px 0; }
+  to   { background-position:  500px 0; }
+}
+
+%skel {
+  background: linear-gradient(90deg, #eaecf0 25%, #f5f6f8 50%, #eaecf0 75%);
+  background-size: 500px 100%;
+  animation: shimmer 1.3s infinite linear;
+  border-radius: $radius;
+}
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.skeleton-card {
+  @extend %skel;
+  height: 116px;
+}
+
+.skeleton-panel {
+  @extend %skel;
+  height: 190px;
+  margin-bottom: 14px;
+
+  &.large { height: 260px; }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Metric cards row
+// ─────────────────────────────────────────────────────────────────────────────
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius;
+  padding: 20px;
+  box-shadow: $shadow;
+  transition: box-shadow $ease;
+
+  &:hover { box-shadow: $shadow-lift; }
+}
+
+.metric-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.metric-card__icon {
+  font-size: 15px !important;
+  line-height: 1 !important;
+  padding: 5px;
+  border-radius: 5px;
+  flex-shrink: 0;
+
+  &.icon--blue   { color: $blue;   background: $blue-tint;   }
+  &.icon--sage   { color: $sage;   background: $sage-tint;   }
+  &.icon--orange { color: $orange; background: $orange-tint; }
+}
+
+.metric-card__label {
+  font-size: 11.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.55px;
+  color: $text-secondary;
+}
+
+.metric-card__value {
+  margin: 0 0 10px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: $text-primary;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+
+  &.value--positive { color: $green; }
+  &.value--negative { color: $red; }
+  &.value--count    { color: $sage; font-size: 32px; }
+}
+
+.metric-card__sub {
+  margin: 0;
+  font-size: 12px;
+  color: $text-muted;
+}
+
+.metric-card__link {
+  font-size: 12px;
+  font-weight: 500;
+  color: $sage;
+  text-decoration: none;
+  letter-spacing: 0.1px;
+
+  &:hover { text-decoration: underline; }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Mini progress bar (inside spending card)
+// ─────────────────────────────────────────────────────────────────────────────
+.mini-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mini-bar {
+  flex: 1;
+  height: 5px;
+  background: $border;
+  border-radius: $radius-pill;
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    background: $blue;
+    border-radius: $radius-pill;
+    transition: width 500ms ease;
+
+    &.fill--warn   { background: $amber; }
+    &.fill--danger { background: $red;   }
+  }
+}
+
+.mini-bar__label {
+  font-size: 11.5px;
+  color: $text-muted;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Lower two-column layout
+// ─────────────────────────────────────────────────────────────────────────────
+.lower-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 14px;
+  align-items: start;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Shared panel (card with header)
+// ─────────────────────────────────────────────────────────────────────────────
+.panel {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  overflow: hidden;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid $border-faint;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: $text-primary;
+    letter-spacing: -0.1px;
+  }
+
+  &__link {
+    font-size: 12px;
+    font-weight: 500;
+    color: $blue;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Transactions table
+// ─────────────────────────────────────────────────────────────────────────────
+.table-wrap { overflow-x: auto; }
+
+.tx-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+
+  th {
+    padding: 9px 20px;
+    text-align: left;
+    font-size: 10.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: $text-muted;
+    background: $border-faint;
+    border-bottom: 1px solid $border;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 20px;
+    border-bottom: 1px solid $border-faint;
+    vertical-align: middle;
+    color: $text-primary;
+  }
+}
+
+.align-right {
+  text-align: right !important;
+}
+
+.tx-row {
+  &:last-child td { border-bottom: none; }
+  &:hover { background: $border-faint; }
+  transition: background $ease;
+}
+
+.tx-date {
+  color: $text-secondary;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.category-pill {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: $radius-pill;
+  font-size: 12px;
+  font-weight: 500;
+  color: $text-secondary;
+  background: $border-faint;
+  border: 1px solid $border;
+  white-space: nowrap;
+}
+
+.tx-amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+
+  &--income  { color: $green; }
+  &--expense { color: $text-primary; }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Status tags (global flag)
+// ─────────────────────────────────────────────────────────────────────────────
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: $radius-sm;
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  &__icon {
+    font-size: 13px !important;
+    line-height: 1 !important;
+  }
+
+  &--ok {
+    background: $green-tint;
+    color: $green;
+  }
+
+  &--pending {
+    background: $amber-tint;
+    color: $amber;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Budget list
+// ─────────────────────────────────────────────────────────────────────────────
+.budget-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.budget-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid $border-faint;
+
+  &:last-child { border-bottom: none; }
+}
+
+.budget-item__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.budget-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-primary;
+}
+
+.budget-fraction {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $text-primary;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &--warn   { color: $amber; }
+  &--danger { color: $red;   }
+
+  &__limit {
+    font-weight: 400;
+    color: $text-muted;
+    margin-left: 1px;
+  }
+}
+
+.budget-bar {
+  height: 5px;
+  background: $border;
+  border-radius: $radius-pill;
+  overflow: hidden;
+  margin-bottom: 7px;
+
+  &__fill {
+    height: 100%;
+    background: $sage;
+    border-radius: $radius-pill;
+    max-width: 100%;
+    transition: width 500ms ease;
+
+    &.fill--warn   { background: $amber; }
+    &.fill--danger { background: $red;   }
+  }
+}
+
+.budget-hint {
+  margin: 0;
+  font-size: 11.5px;
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.hint--warn  { color: $amber; font-weight: 500; }
+.hint--danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: $red;
+  font-weight: 500;
+}
+
+.hint-icon {
+  font-size: 13px !important;
+  line-height: 1 !important;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Responsive
+// ─────────────────────────────────────────────────────────────────────────────
+@media (max-width: 1060px) {
+  .lower-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .metric-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dash-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-btn {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .metric-row {
+    grid-template-columns: 1fr;
+  }
+}

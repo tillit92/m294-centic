@@ -73,7 +73,31 @@
     "logout": "Abmelden"
   },
   "dashboard": {
-    "welcome": "Willkommen {{username}} ({{useralias}})!"
+    "welcome": "Willkommen {{username}} ({{useralias}})!",
+    "subtitle_auth": "Willkommen zurück, {{useralias}}",
+    "subtitle_anon": "Ihre Finanzübersicht für {{month}}",
+    "new_transaction": "Neue Transaktion",
+    "metric_balance": "Gesamtsaldo",
+    "metric_balance_sub": "Nettoposition",
+    "metric_spending": "Ausgaben diesen Monat",
+    "metric_spending_of": "von {{limit}} Limit",
+    "metric_budgets": "Aktive Budgets",
+    "metric_budgets_link": "Alle Budgets anzeigen",
+    "section_transactions": "Letzte Transaktionen",
+    "section_transactions_link": "Alle anzeigen",
+    "section_budgets": "Budgetübersicht",
+    "section_budgets_link": "Verwalten",
+    "col_date": "Datum",
+    "col_category": "Kategorie",
+    "col_amount": "Betrag",
+    "col_status": "Status",
+    "status_approved": "Freigegeben",
+    "status_pending": "Ausstehend",
+    "type_income": "Einnahme",
+    "type_expense": "Ausgabe",
+    "budget_remaining": "{{pct}}% verbleibend",
+    "budget_limit_reached": "Limit erreicht",
+    "budget_nearly_full": "{{pct}}% verbleibend"
   },
   "mat": {
     "Items per page:": "Anzahl Einträge pro Seite:",
