@@ -42,23 +42,8 @@
     "category": "Category",
     "button_new": "Add new budget"
   },
-  "department": {
-    "name": "Name",
-    "button_new": "Add new department"
-  },
-  "employee": {
-    "name": "Name",
-    "firstname": "Firstname",
-    "badge": "Badge",
-    "department": "Department",
-    "button_new": "Add new employee"
-  },
   "nav": {
     "dashboard": "Dashboard",
-    "departments": "Departments",
-    "employees": "Employees",
-    "employee_edit": "Edit employee",
-    "employee_new": "Add new employee",
     "categories": "Categories",
     "category_edit": "Edit category",
     "category_new": "Add new category",

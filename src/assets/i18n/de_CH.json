@@ -42,23 +42,8 @@
     "category": "Kategorie",
     "button_new": "Neues Budget erfassen"
   },
-  "department": {
-    "name": "Name",
-    "button_new": "Neue Abteilung erfassen"
-  },
-  "employee": {
-    "name": "Nachname",
-    "firstname": "Vorname",
-    "badge": "Mitarbeiternummer",
-    "department": "Abteilung",
-    "button_new": "Neuer Mitarbeiter erfassen"
-  },
   "nav": {
     "dashboard": "Dashboard",
-    "departments": "Abteilungen",
-    "employees": "Mitarbeiter",
-    "employee_edit": "Mitarbeiter editieren",
-    "employee_new": "Neuer Mitarbeiter erfassen",
     "categories": "Kategorien",
     "category_edit": "Kategorie editieren",
     "category_new": "Neue Kategorie erfassen",
